@@ -1,75 +1,9 @@
-// var weatherApiKey = "18d9beb16b853d69589af0b11aaf06f4";
-// var aviaApiKey = "1f95fd-f0ea67";
-// var cityList = [];
-
-// $("#search-btn").on("click", (event) => {
-//   event.preventDefault();
-//   var city = $("#city-name").val();
-//   cityList = JSON.parse(localStorage.getItem("city")) || [];
-//   cityList.push(city);
-//   localStorage.setItem("city", JSON.stringify(cityList));
-// });
-// var formSearch = function (city) {
-//   if (city) {
-//     citySearch();
-//   } else {
-//     alert("please enter the city");
-//   }
-// };
-// var citySearch = function () {
-//   //format the url for city search
-
-//   var cityUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherApiKey}`;
-
-//   //make request to the url
-//   fetch(cityUrl).then(function (response) {
-//     console.log(response);
-//     //request was successful
-//     if (response.ok) {
-//       console.log("yo yo", response);
-//       return response.json().then(function (data) {
-//         console.log("hi ", data.name);
-//         getLatLon();
-//       });
-//     }
-//   });
-// };
-
-// var getLatLon = function (data) {
-//   var lat = data.coord.lat;
-//   var lon = data.coord.lon;
-
-//   var latLon = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,daily&units=imperial&appid=${apiKey}`;
-//   fetch(latLon)
-//     .then(function (response) {
-//       if (response.ok) {
-//         return response.json();
-//       }
-//     })
-//     .then(function (data) {
-//       console.table(data);
-//       getArrivals();
-//     });
-// };
-// var getArrivals = function () {
-//   cityName = lat.val + lon.val;
-//   var arrivalsUrl = `https://aviation-edge.com/v2/public/flights?key=${aviaApiKey}&arrIata=${}`;
-//   fetch(arrivalsUrl)
-//     .then(function (response) {
-//       console.log(response);
-//       if (response.ok) {
-//         return response.json();
-//       }
-//     })
-//     .then(function (data) {
-//       console.log(data.aircraft);
-//     });
-// };
+var aviaApiKey = "1f95fd-f0ea67";
 
 // getting all values we need from this url so when user puts the name of a city, it maches it return what we need
 var cityDataBase = [];
 var citySearch = function () {
-  var cityUrl = `https://aviation-edge.com/v2/public/cityDatabase?key=1f95fd-f0ea67`;
+  var cityUrl = `https://aviation-edge.com/v2/public/cityDatabase?key=${aviaApiKey}`;
   fetch(cityUrl)
     .then(function (response) {
       console.log(response);
@@ -119,7 +53,6 @@ function userInput() {
 }
 // getting arivals data
 function arrivalData(flights) {
-  var aviaApiKey = "1f95fd-f0ea67";
   var arrivalsUrl = `https://aviation-edge.com/v2/public/flights?key=${aviaApiKey}&arrIata=${flights}`;
   fetch(arrivalsUrl)
     .then(function (response) {
@@ -131,6 +64,15 @@ function arrivalData(flights) {
     .then(function (data) {
       console.table("hellooo", data);
       // clear old element
-      // displayArrivals(data);
+      displayArrDep(data);
     });
 }
+// display aircraft, airline, arrivals, departures to the page
+var displayArrDep = function (data) {
+  const { aircraft } = data;
+  var aircraftEl = document.createElement("span");
+  aircraftEl.textContent = "AIRCRAFT " + aircraft;
+  $("#display").append(aircraftEl);
+};
+// got that displaying on the page , but cannot get the value of aircraft, it says it's undefined but it is on the page
+// we will need to get other values displaying on the page exactly the same way
