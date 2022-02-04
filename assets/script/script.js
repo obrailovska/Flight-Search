@@ -66,7 +66,6 @@
 //     });
 // };
 
-
 // getting all values we need from this url so when user puts the name of a city, it maches it return what we need
 var cityDataBase = [];
 var citySearch = function () {
@@ -107,15 +106,31 @@ function userInput() {
   event.preventDefault();
   var userCity = document.getElementById("city-name").value.toLowerCase();
   console.log("user-city ", userCity);
-  // looping over the cities and making sure that value matches whatever user input is
+  // looping over the cities and making sure that value matches whatever user's input is
   for (var i = 0; i < cityDataBase.length; i++) {
     if (userCity == cityDataBase[i].city) {
       console.log("citycity", cityDataBase[i]);
-      // create function that passes iata value
-      // ex. flights (cityDataBase[i]) {
-      
-    }else ()
+
+      var flights = cityDataBase[i].iata;
+      console.log("bla bla ", flights);
+      arrivalData(flights);
+    }
   }
 }
-//  use this url to get arrival flights
-// var arrivalsUrl = `https://aviation-edge.com/v2/public/flights?key=${aviaApiKey}&arrIata=${    put aita var value here  }`;
+// getting arivals data
+function arrivalData(flights) {
+  var aviaApiKey = "1f95fd-f0ea67";
+  var arrivalsUrl = `https://aviation-edge.com/v2/public/flights?key=${aviaApiKey}&arrIata=${flights}`;
+  fetch(arrivalsUrl)
+    .then(function (response) {
+      if (response.ok) {
+        console.log("dataaa", response);
+        return response.json();
+      }
+    })
+    .then(function (data) {
+      console.table("hellooo", data);
+      // clear old element
+      // displayArrivals(data);
+    });
+}
