@@ -67,19 +67,32 @@ function arrivalData(flights) {
       displayArrDep(data);
     });
 }
-// display aircraft, airline, arrivals, departures to the page
+// display aircraft, arrivals, departures, status to the page
 var displayArrDep = function (data) {
   for (var i = 0; i < data.length; i++) {
+    //getting aircraft
     var aircraft = data[i].aircraft.iataCode;
     var aircraftEl = document.createElement("p");
-    aircraftEl.textContent = "AIRCRAFT " + i + " " + aircraft;
-
+    aircraftEl.textContent = "AIRCRAFT: " + i + " " + aircraft;
     $("#display").append(aircraftEl);
 
+    //getting arrivals
+    var arrival = data[i].airline.iataCode;
+    var arrivalEl = document.createElement("p");
+    arrivalEl.textContent = "ARRIVAL: " + i + " " + arrival;
+    $("#display").append(arrivalEl);
+
+    //getting departure
     var departures = data[i].departure.iataCode;
     var departuresEl = document.createElement("p");
     departuresEl.textContent = "DEPARTURES: " + departures;
     $("#display").append(departuresEl);
+
+    //getting status
+    var status = data[i].status;
+    var statusEl = document.createElement("p");
+    statusEl.textContent = "STATUS: " + status;
+    $("#display").append(statusEl);
   }
 };
 
