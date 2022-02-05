@@ -1,16 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Nearby Aiport Search</title>
-</head>
-<body>
-    <main>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Nearby Airport Search</title>
+  </head>
+  <body>
+    <!--page Header-->
+    <header>
+      <h1>
+        <a href="/">Nearby Airport Search</a>
+      </h1>
+    </header>
+    <section class="main">
+        <div class="Intro" >
+          <h3>
+            <p>Welcome to "Nearby Airport"! We have designed this
+              page to simplify airport info search for traveller
+              like you. By a click of a button you get valuable 
+              information so you can plan you journey. 
 
-    </main>
+              Start planning your first trip today!!
+            </p>
+          </h3>
+          <div >
+            <h3 >Search For a City:</h3>
+            <form id="city-form">
+              <!-- class="card-body" -->
+              <label class="form-label" for="city-name"></label>
+              <input
+                name="name of the city"
+                id="city-name"
+                type="text"
+                autofocus="true"
+                class="form-input"
+              />
+              <button id="search-btn" class="btn">Search</button>
+            </form>
+            
+          </div>
+          <div id="display">
+            
+          </div>
+        </section>
+        <!--page footer-->
+        <footer> 
+          <h2> <span style="font-weight: 100;">❤️</span> Made with love by &copy; 2022, Nearby Airport Search team.</h2>
+          <div>
+           <a>&copy; 2022, Nearby Airport Search.</a>   
+          </div>
+      </footer>
+    <script
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="./assets/script/script.js"></script>
-</body>
+  </body>
 </html>
