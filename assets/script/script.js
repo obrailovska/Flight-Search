@@ -69,10 +69,19 @@ function arrivalData(flights) {
 }
 // display aircraft, airline, arrivals, departures to the page
 var displayArrDep = function (data) {
-  const { aircraft } = data;
-  var aircraftEl = document.createElement("span");
-  aircraftEl.textContent = "AIRCRAFT " + aircraft;
-  $("#display").append(aircraftEl);
+  for (var i = 0; i < data.length; i++) {
+    var aircraft = data[i].aircraft.iataCode;
+    var aircraftEl = document.createElement("p");
+    aircraftEl.textContent = "AIRCRAFT " + i + " " + aircraft;
+
+    $("#display").append(aircraftEl);
+
+    var departures = data[i].departure.iataCode;
+    var departuresEl = document.createElement("p");
+    departuresEl.textContent = "DEPARTURES: " + departures;
+    $("#display").append(departuresEl);
+  }
 };
+
 // got that displaying on the page , but cannot get the value of aircraft, it says it's undefined but it is on the page
 // we will need to get other values displaying on the page exactly the same way
