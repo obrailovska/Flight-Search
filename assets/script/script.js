@@ -72,13 +72,15 @@ var displayArrDep = function (data) {
   for (var i = 0; i < data.length; i++) {
     //getting aircraft
     var aircraft = data[i].aircraft.iataCode;
-    var aircraftEl = document.createElement("p");
+    var aircraftEl = document.createElement("div");
+    aircraftEl.className = "col s12 m8 l9";
     aircraftEl.textContent = "AIRCRAFT: " + i + " " + aircraft;
     $("#display").append(aircraftEl);
 
     //getting arrivals
     var arrival = data[i].airline.iataCode;
-    var arrivalEl = document.createElement("p");
+    var arrivalEl = document.createElement("div");
+    arrivalEl.className = "col s12 m8 l9";
     arrivalEl.textContent = "ARRIVAL: " + i + " " + arrival;
     $("#display").append(arrivalEl);
 
