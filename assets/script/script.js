@@ -58,6 +58,7 @@ function userInput() {
       arrivalData(flights);
     }
   }
+  window.localStorage.setItem("city", userCity);
 
   // var userDate = document.getElementById("start").value;
   // console.log("hello date", userDate);
@@ -75,7 +76,7 @@ function arrivalData(flights) {
     })
     .then(function (data) {
       console.table("hellooo", data);
-      // clear old element
+      $("#display").empty();
       displayArrDep(data);
     });
   // var futureUrl = `https://aviation-edge.com/v2/public/flightsFuture?key=${aviaApiKey}&type=departure&iataCode=iataCode=CDG&date=2022-02-16`;
