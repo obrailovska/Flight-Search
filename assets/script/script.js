@@ -70,31 +70,38 @@ function arrivalData(flights) {
 // display aircraft, arrivals, departures, status to the page
 var displayArrDep = function (data) {
   for (var i = 0; i < data.length; i++) {
+    var flight = document.createElement("div");
+    flight.className = "flight-group card-panel col s12 m3 ivory";
+
     //getting aircraft
     var aircraft = data[i].aircraft.iataCode;
     var aircraftEl = document.createElement("div");
-    aircraftEl.className = "col s12 m8 l9";
+    aircraftEl.className = "card-panel teal white-text";
     aircraftEl.textContent = "AIRCRAFT: " + i + " " + aircraft;
-    $("#display").append(aircraftEl);
+    flight.append(aircraftEl);
 
     //getting arrivals
     var arrival = data[i].airline.iataCode;
     var arrivalEl = document.createElement("div");
-    arrivalEl.className = "col s12 m8 l9";
+    arrivalEl.className = "card-panel teal white-text";
     arrivalEl.textContent = "ARRIVAL: " + i + " " + arrival;
-    $("#display").append(arrivalEl);
+    flight.append(arrivalEl);
 
     //getting departure
     var departures = data[i].departure.iataCode;
-    var departuresEl = document.createElement("p");
+    var departuresEl = document.createElement("div");
+    departuresEl.className = "card-panel teal white-text";
     departuresEl.textContent = "DEPARTURES: " + departures;
-    $("#display").append(departuresEl);
+    flight.append(departuresEl);
 
     //getting status
     var status = data[i].status;
-    var statusEl = document.createElement("p");
+    var statusEl = document.createElement("div");
+    statusEl.className = "card-panel teal white-text";
     statusEl.textContent = "STATUS: " + status;
-    $("#display").append(statusEl);
+    flight.append(statusEl);
+
+    $("#display").append(flight);
   }
 };
 
