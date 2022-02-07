@@ -40,6 +40,14 @@ function userInput() {
   event.preventDefault();
   var userCity = document.getElementById("city-name").value.toLowerCase();
   console.log("user-city ", userCity);
+  // var userDate = document.getElementById("start").value;
+  // console.log("hello date", userDate);
+  // var enteredDate = new Date(userDate).toISOString().substring(0, 10);
+  // enteredDate.getDay();
+  // console.log("just give up", enteredDate.getDay());
+  // var plugIn = enteredDate.getDay();
+  // console.log("plugINNNNN", plugIn);
+
   // looping over the cities and making sure that value matches whatever user's input is
   for (var i = 0; i < cityDataBase.length; i++) {
     if (userCity == cityDataBase[i].city) {
@@ -50,7 +58,12 @@ function userInput() {
       arrivalData(flights);
     }
   }
+  window.localStorage.setItem("city", userCity);
+
+  // var userDate = document.getElementById("start").value;
+  // console.log("hello date", userDate);
 }
+
 // getting arivals data
 function arrivalData(flights) {
   var arrivalsUrl = `https://aviation-edge.com/v2/public/flights?key=${aviaApiKey}&arrIata=${flights}`;
@@ -63,9 +76,22 @@ function arrivalData(flights) {
     })
     .then(function (data) {
       console.table("hellooo", data);
-      // clear old element
+      $("#display").empty();
       displayArrDep(data);
     });
+  // var futureUrl = `https://aviation-edge.com/v2/public/flightsFuture?key=${aviaApiKey}&type=departure&iataCode=iataCode=CDG&date=2022-02-16`;
+  // fetch(futureUrl)
+  //   .then(function (response) {
+  //     if (response.ok) {
+  //       console.log("future", response);
+  //       return response.json();
+  //     }
+  //   })
+  //   .then(function (data) {
+  //     console.table("future1", data);
+  //     // clear old element
+  //     // displayArrDep(data);
+  //   });
 }
 // display aircraft, arrivals, departures, status to the page
 var displayArrDep = function (data) {
@@ -104,6 +130,3 @@ var displayArrDep = function (data) {
     $("#display").append(flight);
   }
 };
-
-// got that displaying on the page , but cannot get the value of aircraft, it says it's undefined but it is on the page
-// we will need to get other values displaying on the page exactly the same way
