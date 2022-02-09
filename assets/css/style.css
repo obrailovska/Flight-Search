@@ -28,3 +28,9 @@ header h1 {
 .main {
   height: 500px;
 }
+.btn,
+.btn2 {
+  border-radius: 5px;
+  background-color: teal;
+  width: 100%;
+}

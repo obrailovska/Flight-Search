@@ -2,6 +2,7 @@ var aviaApiKey = "1f95fd-f0ea67";
 
 // getting all values we need from this url so when user puts the name of a city, it maches it return what we need
 var cityDataBase = [];
+var cities = [];
 var citySearch = function () {
   var cityUrl = `https://aviation-edge.com/v2/public/cityDatabase?key=${aviaApiKey}`;
   fetch(cityUrl)
@@ -12,7 +13,7 @@ var citySearch = function () {
       }
     })
     .then(function (data) {
-      console.log(data);
+      console.log("City name: " + data[0].nameCity);
       console.log(
         "hii",
         // getting spicific information we need from this url
@@ -34,19 +35,38 @@ var citySearch = function () {
 citySearch();
 
 document.getElementById("search-btn").addEventListener("click", userInput);
+// function searchHistory() {
+//   cities = JSON.parse(localStorage.getItem("city")) || [];
+//   cities.push(userCity);
+//   localStorage.setItem("city", JSON.stringify(cities));
+//   createBtn();
+// }
+
+function createBtn() {
+  cities = JSON.parse(localStorage.getItem("city")) || [];
+
+  for (var i = 0; i < cities.length; i++) {
+    var btn = document.createElement("button");
+    btn.className = "btn2";
+    btn.textContent = cities[i];
+
+    btn.onclick = function () {
+      citySearch();
+    };
+
+    $("#cityName").append(btn);
+  }
+}
 
 function userInput() {
   console.log("yo", cityDataBase);
   event.preventDefault();
   var userCity = document.getElementById("city-name").value.toLowerCase();
   console.log("user-city ", userCity);
-  // var userDate = document.getElementById("start").value;
-  // console.log("hello date", userDate);
-  // var enteredDate = new Date(userDate).toISOString().substring(0, 10);
-  // enteredDate.getDay();
-  // console.log("just give up", enteredDate.getDay());
-  // var plugIn = enteredDate.getDay();
-  // console.log("plugINNNNN", plugIn);
+  cities = JSON.parse(localStorage.getItem("city")) || [];
+  cities.push(userCity);
+  localStorage.setItem("city", JSON.stringify(cities));
+  createBtn();
 
   // looping over the cities and making sure that value matches whatever user's input is
   for (var i = 0; i < cityDataBase.length; i++) {
@@ -58,10 +78,6 @@ function userInput() {
       arrivalData(flights);
     }
   }
-  window.localStorage.setItem("city", userCity);
-
-  // var userDate = document.getElementById("start").value;
-  // console.log("hello date", userDate);
 }
 
 // getting arivals data
@@ -79,19 +95,6 @@ function arrivalData(flights) {
       $("#display").empty();
       displayArrDep(data);
     });
-  // var futureUrl = `https://aviation-edge.com/v2/public/flightsFuture?key=${aviaApiKey}&type=departure&iataCode=iataCode=CDG&date=2022-02-16`;
-  // fetch(futureUrl)
-  //   .then(function (response) {
-  //     if (response.ok) {
-  //       console.log("future", response);
-  //       return response.json();
-  //     }
-  //   })
-  //   .then(function (data) {
-  //     console.table("future1", data);
-  //     // clear old element
-  //     // displayArrDep(data);
-  //   });
 }
 // display aircraft, arrivals, departures, status to the page
 var displayArrDep = function (data) {
