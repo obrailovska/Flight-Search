@@ -2,6 +2,15 @@ var aviaApiKey = "1f95fd-f0ea67";
 
 // getting all values we need from this url so when user puts the name of a city, it maches it return what we need
 var cityDataBase = [];
+var cities = [];
+
+var getSearchedCities = JSON.parse(localStorage.getItem("city"));
+
+setLocalStorage = (key, value) => {
+  cities.push(value);
+  localStorage.setItem(key, JSON.stringify(cities));
+};
+
 var citySearch = function () {
   var cityUrl = `https://aviation-edge.com/v2/public/cityDatabase?key=${aviaApiKey}`;
   fetch(cityUrl)
@@ -12,7 +21,7 @@ var citySearch = function () {
       }
     })
     .then(function (data) {
-      console.log(data);
+      console.log("City name: " + data[0].nameCity);
       console.log(
         "hii",
         // getting spicific information we need from this url
@@ -35,36 +44,55 @@ citySearch();
 
 document.getElementById("search-btn").addEventListener("click", userInput);
 
-function userInput() {
-  console.log("yo", cityDataBase);
-  event.preventDefault();
-  var userCity = document.getElementById("city-name").value.toLowerCase();
-  console.log("user-city ", userCity);
-  // var userDate = document.getElementById("start").value;
-  // console.log("hello date", userDate);
-  // var enteredDate = new Date(userDate).toISOString().substring(0, 10);
-  // enteredDate.getDay();
-  // console.log("just give up", enteredDate.getDay());
-  // var plugIn = enteredDate.getDay();
-  // console.log("plugINNNNN", plugIn);
+function createBtn(userCity) {
+  var btn = document.createElement("button");
+  btn.className = "btn2";
+  btn.textContent = userCity;
 
-  // looping over the cities and making sure that value matches whatever user's input is
-  for (var i = 0; i < cityDataBase.length; i++) {
-    if (userCity == cityDataBase[i].city) {
-      console.log("citycity", cityDataBase[i]);
-
-      var flights = cityDataBase[i].iata;
-      console.log("bla bla ", flights);
-      arrivalData(flights);
-    }
-  }
-  window.localStorage.setItem("city", userCity);
-
-  // var userDate = document.getElementById("start").value;
-  // console.log("hello date", userDate);
+  $("#cityName").append(btn);
 }
 
-// getting arivals data
+function userInput(data) {
+  console.log("yo", cityDataBase);
+  event.preventDefault();
+  var cityNameSelector = document.getElementById("city-name").value;
+
+  if (cityNameSelector === "") {
+    var userCity = data;
+    for (var i = 0; i < cityDataBase.length; i++) {
+      if (userCity == cityDataBase[i].city) {
+        console.log("citycity", cityDataBase[i]);
+
+        var flights = cityDataBase[i].iata;
+        console.log("bla bla ", flights);
+        arrivalData(flights);
+      }
+    }
+  } else {
+    var userCity = document.getElementById("city-name").value.toLowerCase();
+
+    console.log("user-city ", userCity);
+    // setting local storage
+
+    setLocalStorage("city", userCity);
+    console.log(cities);
+    createBtn(userCity);
+
+    // looping over the cities and making sure that value matches whatever user's input is
+    for (var i = 0; i < cityDataBase.length; i++) {
+      if (userCity == cityDataBase[i].city) {
+        console.log("citycity", cityDataBase[i]);
+
+        var flights = cityDataBase[i].iata;
+        console.log("bla bla ", flights);
+        arrivalData(flights);
+      }
+    }
+    document.getElementById("city-name").value = "";
+  }
+}
+
+// getting arivals data from api
 function arrivalData(flights) {
   var arrivalsUrl = `https://aviation-edge.com/v2/public/flights?key=${aviaApiKey}&arrIata=${flights}`;
   fetch(arrivalsUrl)
@@ -79,19 +107,6 @@ function arrivalData(flights) {
       $("#display").empty();
       displayArrDep(data);
     });
-  // var futureUrl = `https://aviation-edge.com/v2/public/flightsFuture?key=${aviaApiKey}&type=departure&iataCode=iataCode=CDG&date=2022-02-16`;
-  // fetch(futureUrl)
-  //   .then(function (response) {
-  //     if (response.ok) {
-  //       console.log("future", response);
-  //       return response.json();
-  //     }
-  //   })
-  //   .then(function (data) {
-  //     console.table("future1", data);
-  //     // clear old element
-  //     // displayArrDep(data);
-  //   });
 }
 // display aircraft, arrivals, departures, status to the page
 var displayArrDep = function (data) {
@@ -129,4 +144,21 @@ var displayArrDep = function (data) {
 
     $("#display").append(flight);
   }
+};
+
+if (getSearchedCities !== null) {
+  for (var i = 0; i < getSearchedCities.length; i++) {
+    cities.push(getSearchedCities[i]);
+    var cityBtn = document.createElement("button");
+    cityBtn.className = "btn2";
+    cityBtn.setAttribute("onclick", "getCities(event)");
+    cityBtn.textContent = getSearchedCities[i];
+    $("#cityName").append(cityBtn);
+  }
+}
+
+getCities = (e) => {
+  e.preventDefault();
+  var savedCity = e.target.innerText;
+  userInput(savedCity);
 };
