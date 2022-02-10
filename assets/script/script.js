@@ -3,6 +3,14 @@ var aviaApiKey = "1f95fd-f0ea67";
 // getting all values we need from this url so when user puts the name of a city, it maches it return what we need
 var cityDataBase = [];
 var cities = [];
+
+var getSearchedCities = JSON.parse(localStorage.getItem("city"));
+
+setLocalStorage = (key, value) => {
+  cities.push(value);
+  localStorage.setItem(key, JSON.stringify(cities));
+};
+
 var citySearch = function () {
   var cityUrl = `https://aviation-edge.com/v2/public/cityDatabase?key=${aviaApiKey}`;
   fetch(cityUrl)
@@ -35,52 +43,56 @@ var citySearch = function () {
 citySearch();
 
 document.getElementById("search-btn").addEventListener("click", userInput);
-// function searchHistory() {
-//   cities = JSON.parse(localStorage.getItem("city")) || [];
-//   cities.push(userCity);
-//   localStorage.setItem("city", JSON.stringify(cities));
-//   createBtn();
-// }
 
-function createBtn() {
-  cities = JSON.parse(localStorage.getItem("city")) || [];
+function createBtn(userCity) {
+  var btn = document.createElement("button");
+  btn.className = "btn2";
+  btn.textContent = userCity;
 
-  for (var i = 0; i < cities.length; i++) {
-    var btn = document.createElement("button");
-    btn.className = "btn2";
-    btn.textContent = cities[i];
-
-    btn.onclick = function () {
-      citySearch();
-    };
-
-    $("#cityName").append(btn);
-  }
+  $("#cityName").append(btn);
 }
 
-function userInput() {
+function userInput(data) {
   console.log("yo", cityDataBase);
   event.preventDefault();
-  var userCity = document.getElementById("city-name").value.toLowerCase();
-  console.log("user-city ", userCity);
-  cities = JSON.parse(localStorage.getItem("city")) || [];
-  cities.push(userCity);
-  localStorage.setItem("city", JSON.stringify(cities));
-  createBtn();
+  var cityNameSelector = document.getElementById("city-name").value;
 
-  // looping over the cities and making sure that value matches whatever user's input is
-  for (var i = 0; i < cityDataBase.length; i++) {
-    if (userCity == cityDataBase[i].city) {
-      console.log("citycity", cityDataBase[i]);
+  if (cityNameSelector === "") {
+    var userCity = data;
+    for (var i = 0; i < cityDataBase.length; i++) {
+      if (userCity == cityDataBase[i].city) {
+        console.log("citycity", cityDataBase[i]);
 
-      var flights = cityDataBase[i].iata;
-      console.log("bla bla ", flights);
-      arrivalData(flights);
+        var flights = cityDataBase[i].iata;
+        console.log("bla bla ", flights);
+        arrivalData(flights);
+      }
     }
+  } else {
+    var userCity = document.getElementById("city-name").value.toLowerCase();
+
+    console.log("user-city ", userCity);
+    // setting local storage
+
+    setLocalStorage("city", userCity);
+    console.log(cities);
+    createBtn(userCity);
+
+    // looping over the cities and making sure that value matches whatever user's input is
+    for (var i = 0; i < cityDataBase.length; i++) {
+      if (userCity == cityDataBase[i].city) {
+        console.log("citycity", cityDataBase[i]);
+
+        var flights = cityDataBase[i].iata;
+        console.log("bla bla ", flights);
+        arrivalData(flights);
+      }
+    }
+    document.getElementById("city-name").value = "";
   }
 }
 
-// getting arivals data
+// getting arivals data from api
 function arrivalData(flights) {
   var arrivalsUrl = `https://aviation-edge.com/v2/public/flights?key=${aviaApiKey}&arrIata=${flights}`;
   fetch(arrivalsUrl)
@@ -132,4 +144,21 @@ var displayArrDep = function (data) {
 
     $("#display").append(flight);
   }
+};
+
+if (getSearchedCities !== null) {
+  for (var i = 0; i < getSearchedCities.length; i++) {
+    cities.push(getSearchedCities[i]);
+    var cityBtn = document.createElement("button");
+    cityBtn.className = "btn2";
+    cityBtn.setAttribute("onclick", "getCities(event)");
+    cityBtn.textContent = getSearchedCities[i];
+    $("#cityName").append(cityBtn);
+  }
+}
+
+getCities = (e) => {
+  e.preventDefault();
+  var savedCity = e.target.innerText;
+  userInput(savedCity);
 };
