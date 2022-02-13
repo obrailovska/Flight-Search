@@ -6,6 +6,7 @@ A JavaScript based website that helps airport workers know times of arrivals and
 ## Built With
 * HTML
 * CSS
+* Materialize
 * Javascript
 
 ## Website
@@ -13,6 +14,7 @@ A JavaScript based website that helps airport workers know times of arrivals and
 <a href="https://github.com/cedean1029/InteractiveFrontEndProject" target="_blank">Git Hub Repository</a>
 
 ## Demo
+![2022-02-13 10 47 55](https://user-images.githubusercontent.com/95880256/153761117-8ce99a2f-8d7c-4b51-a0e9-2d2529df7872.gif)
 
 
 
