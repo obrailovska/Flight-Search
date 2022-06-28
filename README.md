@@ -19,4 +19,4 @@ A JavaScript based website that helps airport workers know times of arrivals and
 
 
 ## Contribution
-Made by Olga Brailovska, Charlotte Dean, and Boris Habimana
+Made by Olha Brailovska, Charlotte Dean, and Boris Habimana
