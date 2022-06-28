@@ -1,4 +1,4 @@
-# InteractiveFrontEndProject
+# Flight Search
 
 ## Purpose
 A JavaScript based website that helps airport workers know times of arrivals and departures of flights based on searching for a city.  
